@@ -1,79 +1,35 @@
 # Spanish as spoken in Mexico (es-MX) translations for Rails
 # by Edgar J. Suárez (edgar.js@gmail.com)
+# Fixed currency format (Can't convert string to symbol)
+# by Ivan Torres (mexpolk@gmail.com)
 
 es-MX:
   number:
     percentage:
       format:
-        delimiter: ""
+        delimiter: ","
     currency:
-      format: "%u%n"
-      delimiter: ","
-      unit: "$"
-      precision: 2
-      separator: "."
+      format:
+        format: "%u%n"
+        unit: "$"
     format:
       delimiter: ","
-      precision: 3
+      precision: 2
       separator: "."
     human:
       format:
-        delimiter: ""
-        precision: 1
+        delimiter: ","
       storage_units: [Bytes, KB, MB, GB, TB]
     precision:
       format:
-        delimiter: ""
+        delimiter: ","
 
   date:
-    order:
-    - :day
-    - :month
-    - :year
-    abbr_day_names:
-    - "Dom"
-    - "Lun"
-    - "Mar"
-    - "Mie"
-    - "Jue"
-    - "Vie"
-    - "Sab"
-    abbr_month_names:
-    -
-    - "Ene"
-    - "Feb"
-    - "Mar"
-    - "Abr"
-    - "May"
-    - "Jun"
-    - "Jul"
-    - "Ago"
-    - "Sep"
-    - "Oct"
-    - "Nov"
-    - "Dic"
-    day_names:
-    - "Domingo"
-    - "Lunes"
-    - "Martes"
-    - "Miércoles"
-    - "Jueves"
-    - "Viernes"
-    - "Sábado"
-    month_names:
-    -
-    - "Enero"
-    - "Febrero"
-    - "Marzo"
-    - "Abril"
-    - "Mayo"
-    - "Junio"
-    - "Julio"
-    - "Agosto"
-    - "Septiembre"
-    - "Octubre"
-    - "Noviembre"
-    - "Diciembre"
+    order: [:day, :month, :year]
+    abbr_day_names: [Dom, Lun, Mar, Mie, Jue, Vie, Sab]
+    abbr_month_names: [~, Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dic]
+    day_names: [Domingo, Lunes, Martes, Miércoles, Jueves, Viernes, Sábado]
+    month_names: [~, Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre]
     formats:
       short: "%d de %b"
       default: "%d/%m/%Y"

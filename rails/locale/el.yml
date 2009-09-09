@@ -17,9 +17,15 @@ el:
     currency:
       format:
         # Where is the currency sign? %u is the currency unit, %n the number (default: $5.00)
+<<<<<<< HEAD
         # in Greek currency values would be represented as (e.g �5,78:five euros and seventy eight  cents or �1.012,45: one thousand twelve euros and 45 cents)
         format: "%u%n"
         unit: "�"
+=======
+        # in Greek currency values would be represented as (e.g €5,78:five euros and seventy eight  cents or €1.012,45: one thousand twelve euros and 45 cents)
+        format: "%u%n"
+        unit: "€"
+>>>>>>> 7800b88d94146eaf5e5018b0e90064bce6d40d36
         # These three are to override number.format and are optional
         separator: ","
         delimiter: "."
@@ -53,6 +59,7 @@ el:
   # Used in distance_of_time_in_words(), distance_of_time_in_words_to_now(), time_ago_in_words()
   datetime:
     distance_in_words:
+<<<<<<< HEAD
       half_a_minute: "���� �����"
       less_than_x_seconds:
         one:   "�������� ��� ��� ������������"
@@ -84,15 +91,55 @@ el:
       over_x_years:
         one:   "���� ��� 1 �����"
         other: "���� ��� {{count}} ������"
+=======
+      half_a_minute: "μισό λεπτό"
+      less_than_x_seconds:
+        one:   "λιγότερο απο ένα δευτερόλεπτο"
+        other: "λιγότερο απο {{count}} δευτερόλεπτα"
+      x_seconds:
+        one:   "1 δευτερόλεπτο"
+        other: "{{count}} δευτερόλεπτα"
+      less_than_x_minutes:
+        one:   "λιγότερο απο ένα λεπτό"
+        other: "λιγότερο απο {{count}} λεπτά"
+      x_minutes:
+        one:   "ένα λεπτό"
+        other: "{{count}} λεπτά"
+      about_x_hours:
+        one:   "1 ώρα περίπου"
+        other: "{{count}} hours περίπου"
+      x_days:
+        one:   "1 μέρα"
+        other: "{{count}} μέρες"
+      about_x_months:
+        one:   "1 μήνα περίπου"
+        other: "{{count}} μήνες περίπου"
+      x_months:
+        one:   "1 μήνα"
+        other: "{{count}} μήνες"
+      about_x_years:
+        one:   "ένα χρόνο περίπου"
+        other: "{{count}} χρόνια περίπου"
+      over_x_years:
+        one:   "πάνω απο 1 χρόνο"
+        other: "πάνω απο {{count}} χρόνια"
+>>>>>>> 7800b88d94146eaf5e5018b0e90064bce6d40d36
 
   activerecord:
     errors:
       template:
         header:
+<<<<<<< HEAD
           one:    "1 ����� ����������� ���� �� {{model}} �� �����������"
           other:  "{{count}} ���� ��������� ���� �� {{model}} �� �����������"
         # The variable :count is also available
         body: "������� ���������� �� �� �������� ����� :"
+=======
+          one:    "1 λάθος παρεμπόδισε αυτό το {{model}} να αποθηκευθεί"
+          other:  "{{count}} λάθη εμπόδισαν αυτό το {{model}} να αποθηκευθεί"
+        # The variable :count is also available
+        body: "Υπήρξαν προβλήματα με τα ακόλουθα πεδία :"
+>>>>>>> 7800b88d94146eaf5e5018b0e90064bce6d40d36
 
 
   activerecord:
@@ -100,6 +147,7 @@ el:
       # The values :model, :attribute and :value are always available for interpolation
       # The value :count is available when applicable. Can be used for pluralization.
       messages:
+<<<<<<< HEAD
         inclusion: "��� ���������������� ��� �����"
         exclusion: "����� ����������"
         invalid: "����� �����"
@@ -119,6 +167,27 @@ el:
         less_than_or_equal_to: "������ �� ����� �������� � ���� �� {{count}}"
         odd: "������ �� ����� ��������"
         even: "������ �� ����� ������"
+=======
+        inclusion: "δεν συμπεριλαβάνεται στη λίστα"
+        exclusion: "είναι δεσμευμένο"
+        invalid: "είναι άκυρο"
+        confirmation: "δεν ταιριάζει με την επικύρωση"
+        accepted: "πρέπει να είναι αποδεκτό"
+        empty: "δεν πρέπει να είναι άδειο"
+        blank: "δεν πρέπει να είναι κενό"
+        too_long: "είναι πολύ μεγάλο (το μέγιστο μήκος είναι {{count}} χαρακτήρες)"
+        too_short: "είναι πολύ μικρό (το μικρότερο μήκος είναι {{count}} χαρακτήρες)"
+        wrong_length: "έχει λανθασμένο μήκος (πρέπει να είναι {{count}} χαρακτήρες)"
+        taken: "το έχουν ήδη χρησιμοποιήσει"
+        not_a_number: "δεν είναι ένας αριθμός"
+        greater_than: "πρέπει να είναι μεγαλύτερο απο {{count}}"
+        greater_than_or_equal_to: "πρέπει να είναι μεγαλύτερο ή ίσον με {{count}}"
+        equal_to: "πρέπει να είναι ίσον με  {{count}}"
+        less_than: "πρέπει να είναι λιγότερο απο {{count}}"
+        less_than_or_equal_to: "πρέπει να είναι λιγότερο ή ίσον με {{count}}"
+        odd: "πρέπει να είναι περιττός"
+        even: "πρέπει να είναι άρτιος"
+>>>>>>> 7800b88d94146eaf5e5018b0e90064bce6d40d36
         # Append your own errors here or at the model/attributes scope.
 
       # You can define own errors for models or model attributes.
@@ -159,12 +228,21 @@ el:
       long: "%d %B %Y"
       only_day: "%e"
       
+<<<<<<< HEAD
     day_names: [�������, �������, �����, �������, ������, ���������, �������]
     abbr_day_names: [���, ���, ���, ���, ���, ���, ���]
       
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names: [~, ���������, �����������, �������, ��������, �����, �������, �������, ���������, �����������, ���������, ���������, ����������]
     abbr_month_names: [~, ���, ���, ���, ���, ���, ����, ����, ���, ���, ���, ���, ���]
+=======
+    day_names: [Κυριακή, Δευτέρα, Τρίτη, Τετάρτη, Πέμπτη, Παρασκευή, Σάββατο]
+    abbr_day_names: [Κυρ, Δευ, Τρι, Τετ, Πεμ, Παρ, Σαβ]
+      
+    # Don't forget the nil at the beginning; there's no such thing as a 0th month
+    month_names: [~, Ιανοάριος, Φεβρουάριος, Μάρτιος, Απρίλιος, Μάιος, Ιούνιος, Ιούλιος, Άυγουστος, Σεπτέμβριος, Οκτώβριος, Νοέμβριος, Δεκέμβριος]
+    abbr_month_names: [~, Ιαν, Φεβ, Μάρ, Απρ, Μαι, Ιουν, Ιούλ, Αυγ, Σεπ, Οκτ, Νοε, Δεκ]
+>>>>>>> 7800b88d94146eaf5e5018b0e90064bce6d40d36
     # Used in date_select and datime_select.
     # original was: order: [ :year, :month, :day ] 
     order: [ :day, :month, :year ]
@@ -176,8 +254,13 @@ el:
       short: "%d %b %H:%M"
       long: "%d %B %Y %H:%M"
       only_second: "%S"
+<<<<<<< HEAD
     am: "��"
     pm: "��"
+=======
+    am: "am"
+    pm: "pm"
+>>>>>>> 7800b88d94146eaf5e5018b0e90064bce6d40d36
 
   datetime:
     formats:
@@ -187,5 +270,9 @@ el:
 # Used in array.to_sentence.
   support:
     array:
+<<<<<<< HEAD
       sentence_connector: "���"
+=======
+      sentence_connector: "και"
+>>>>>>> 7800b88d94146eaf5e5018b0e90064bce6d40d36
       skip_last_comma: false

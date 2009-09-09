@@ -47,6 +47,19 @@ es:
         # separator: 
         delimiter: "" 
         precision: 1
+      # Rails <= v2.2.2
+      # storage_units: [Bytes, KB, MB, GB, TB]
+      # Rails >= v2.3
+      storage_units:
+        format: "%n %u"
+        units:
+          byte:
+            one:   "Byte"
+            other: "Bytes"
+          kb: "KB"
+          mb: "MB"
+          gb: "GB"
+          tb: "TB"
 
   # Used in distance_of_time_in_words(), distance_of_time_in_words_to_now(), time_ago_in_words()
   datetime:
@@ -54,41 +67,41 @@ es:
       half_a_minute: "medio minuto" 
       less_than_x_seconds:
         one:  "menos de 1 segundo" 
-        many: "menos de {{count}} segundos"
+        other: "menos de {{count}} segundos"
       x_seconds:
         one:  "1 segundo" 
-        many: "{{count}} segundos" 
+        other: "{{count}} segundos" 
       less_than_x_minutes:
         one:  "menos de 1 minuto" 
-        many: "menos de {{count}} minutos" 
+        other: "menos de {{count}} minutos" 
       x_minutes:
         one:  "1 minuto" 
-        many: "{{count}} minutos" 
+        other: "{{count}} minutos" 
       about_x_hours:
         one:  "alrededor de 1 hora" 
-        many: "alrededor de {{count}} horas" 
+        other: "alrededor de {{count}} horas" 
       x_days:
         one:  "1 día" 
-        many: "{{count}} días" 
+        other: "{{count}} días" 
       about_x_months:
         one:  "alrededor de 1 mes" 
-        many: "alrededor de {{count}} meses" 
+        other: "alrededor de {{count}} meses" 
       x_months:
         one:  "1 mes" 
-        many: "{{count}} meses" 
+        other: "{{count}} meses" 
       about_x_years:
         one:  "alrededor de 1 año" 
-        many: "alrededor de {{count}} años" 
+        other: "alrededor de {{count}} años" 
       over_x_years:
         one:  "más de 1 año" 
-        many: "más de {{count}} años" 
+        other: "más de {{count}} años" 
 
   activerecord:
     errors:
       template:
         header:
           one:   "no se pudo guardar este {{model}} porque se encontró 1 error" 
-          many:  "no se pudo guardar este {{model}} porque se encontraron {{count}} errores" 
+          other:  "no se pudo guardar este {{model}} porque se encontraron {{count}} errores" 
         # The variable :count is also available
         body: "Se encontraron problemas con los siguientes campos:" 
 
@@ -128,9 +141,9 @@ es:
       # Use the strftime parameters for formats.
       # When no format has been given, it uses default.
       # You can provide other formats here if you like!
-      default: "%Y-%m-%d" 
-      short: "%d de %b" 
-      long: "%d de %B de %Y" 
+      default: "%e/%m/%Y"
+      short: "%e de %b" 
+      long: "%e de %B de %Y" 
 
     day_names: [Domingo, Lunes, Martes, Miércoles, Jueves, Viernes, Sábado]
     abbr_day_names: [Dom, Lun, Mar, Mie, Jue, Vie, Sab]
@@ -139,18 +152,22 @@ es:
     month_names: [~, Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Setiembre, Octubre, Noviembre, Diciembre]
     abbr_month_names: [~, Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Set, Oct, Nov, Dic]
     # Used in date_select and datime_select.
-    order: [ :year, :month, :day ]
+    order: [ :day, :month, :year ]
 
   time:
     formats:
-      default: "%A, %d de %B de %Y %H:%M:%S %z"
-      short: "%d de %b %H:%M" 
-      long: "%d de %B de %Y %H:%M" 
+      default: "%A, %e de %B de %Y %H:%M:%S %z"
+      short: "%e de %b %H:%M" 
+      long: "%e de %B de %Y %H:%M" 
     am: "am" 
     pm: "pm" 
 
 # Used in array.to_sentence.
   support:
     array:
-      sentence_connector: "y" 
-
+      # Rails <= v.2.2.2
+      # sentence_connector: "y"
+      # Rails >= v.2.3
+      words_connector: ", "
+      two_words_connector: " y "
+      last_word_connector: " y "
