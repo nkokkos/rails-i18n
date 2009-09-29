@@ -5,8 +5,7 @@
 # "Localized Rails demo application"  by 
 #  Clemens Kofler @ http://github.com/clemens/i18n_demo_app
 
-
-"el":
+el:
   
   date:
     formats:
@@ -39,7 +38,7 @@
      am: "πμ"
      pm: "μμ"
 
-  datetime:
+  datetime:http://localhost:3000/pages/number_helper
     formats:
       default: "%d-%m-%YT%H:%M:%S%Z"
 
@@ -80,7 +79,7 @@
       
   number:
     format:
-      precision: 3
+      precision: 3http://localhost:3000/pages/number_helper
       separator: ','
       delimiter: '.'
     
@@ -173,3 +172,4 @@
       #   user:
       #     login: "Handle"
       # will translate User attribute "login" as "Handle"
+
