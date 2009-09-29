@@ -38,7 +38,7 @@ el:
      am: "πμ"
      pm: "μμ"
 
-  datetime:http://localhost:3000/pages/number_helper
+  datetime:
     formats:
       default: "%d-%m-%YT%H:%M:%S%Z"
 
@@ -79,7 +79,7 @@ el:
       
   number:
     format:
-      precision: 3http://localhost:3000/pages/number_helper
+      precision: 3
       separator: ','
       delimiter: '.'
     
