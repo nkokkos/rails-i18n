@@ -1,5 +1,3 @@
-$KCODE = 'u'
-
 require 'rubygems'
 require 'i18n'
 
@@ -12,78 +10,117 @@ module I18n
 end
 
 class KeyStructure
-  attr_reader :result
-  
-  def initialize(locale)
-    @locale = locale.to_sym
-    init_backend
+  PLURALIZATION_KEYS = ['zero', 'one', 'two', 'few', 'many', 'other']
 
-    @reference = I18n.backend.translations[:'en']
-    @data = I18n.backend.translations[@locale]
-    
-    @result = {:bogus => [], :missing => [], :pluralization => []}
-    @key_stack = []
-  end
-  
-  def run
-    compare :missing, @reference, @data
-    compare :bogus, @data, @reference
-  end
-  
-  def output
-    [:missing, :bogus, :pluralization].each do |direction|
-      next unless result[direction].size > 0
-      case direction
-      when :pluralization
-        puts "\nThe following pluralization keys seem to differ:"
-      else
-        puts "\nThe following keys seem to be #{direction} for #{@locale.inspect}:"
-      end
-      puts '   ' + result[direction].join("\n   ")
-    end
-    if result.map{|k, v| v.size == 0}.uniq == [true]
-      puts "No inconsistencies found."
-    end
-    puts "\n"
-  end
-  
-  protected
-  
-    def compare(direction, reference, data)
-      reference.each do |key, value|
-        if data.has_key?(key)
-          @key_stack << key
-          if namespace?(value)
-            compare direction, value, (namespace?(data[key]) ? data[key] : {})
-          elsif pluralization?(value)
-            compare :pluralization, value, (pluralization?(data[key]) ? data[key] : {})
+  class << self
+    def check(locale)
+      missing_keys = []
+      broken_keys = []
+      missing_pluralizations = []
+
+      init_backend(locale)
+
+      I18n.locale = locale.to_sym
+      translations = flatten_hash(I18n.backend.translations[:'default'])
+      pluralizations = find_pluralizations(I18n.backend.translations[:'default'])
+      translations.keys.sort.each do |key|
+        begin
+          case key
+          when /^date\.formats\.(\w+)/
+            I18n.l Date.today, :format => $1.to_sym, :raise => true
+          when /^time\.formats\.(\w+)/
+            I18n.l Time.now, :format => $1.to_sym, :raise => true
+          when 'activerecord.errors.messages.restrict_dependent_destroy'
+            begin
+              I18n.t "#{key}.one", :record => 'dummy', :raise => true
+            rescue I18n::MissingTranslationData => e
+              missing_keys << e.key
+            end
+            begin
+              I18n.t "#{key}.many", :record => 'dummy', :raise => true
+            rescue I18n::MissingTranslationData => e
+              missing_keys << e.key
+            end
+          else
+            I18n.t key, :raise => true
           end
-          @key_stack.pop
-        else
-          @result[direction] << current_key(key)
+
+          if key != 'activerecord.errors.messages.restrict_dependent_destroy' and pluralizations.has_key?(key)
+            [0, 1, 2, 3, 5, 6, 10, 11, 100, 1000000, 10.2].each do |count|
+              I18n.t key, :count => count, :raise => true
+            end
+          end
+        rescue I18n::InvalidPluralizationData => e
+          missing_pluralizations << key
+        rescue I18n::MissingTranslationData
+          missing_keys << key
+        rescue Exception
+          broken_keys << key
         end
       end
+
+      return missing_keys, broken_keys, missing_pluralizations
     end
-  
-    def current_key(key)
-      (@key_stack.dup << key).join('.')
-    end
-    
-    def namespace?(hash)
-      Hash === hash and !pluralization?(hash)
-    end
-    
-    def pluralization?(hash)
-      Hash === hash and hash.has_key?(:one) and hash.has_key?(:other)
-    end
-  
-    def init_backend
-      I18n.load_path = %W(
-        rails/rails/action_view.yml
-        rails/rails/active_record.yml
-        rails/rails/active_support.yml
-      )
-      I18n.load_path += Dir["rails/locale/#{@locale}.{rb,yml}"]
-      I18n.backend.init_translations
-    end
+
+    private
+      def flatten_hash(data, prefix = '', result = {})
+        data.each do |key, value|
+          current_prefix = prefix.empty? ? key.to_s : "#{prefix}.#{key}"
+
+          if !value.is_a?(Hash) || pluralization_data?(value)
+            result[current_prefix] = value
+          else
+            flatten_hash(value, current_prefix, result)
+          end
+        end
+
+        result
+      end
+
+      def find_pluralizations(data, prefix = '', result = {})
+        data.each do |key, value|
+          current_prefix = prefix.empty? ? key.to_s : "#{prefix}.#{key}"
+
+          if value.is_a?(Hash)
+            if pluralization_data?(value)
+              result[current_prefix] = value
+            else
+              find_pluralizations(value, current_prefix, result)
+            end
+          end
+        end
+
+        result
+      end
+
+      def pluralization_data?(data)
+        keys = data.keys.map(&:to_s)
+        keys.all? {|k| PLURALIZATION_KEYS.include?(k) }
+      end
+
+      def init_backend(locale)
+        I18n.load_path = []
+        I18n.reload!
+
+        I18n.load_path += Dir[File.dirname(__FILE__) + "/../../rails4/*.yml"]
+
+        path = File.dirname(__FILE__) + "/../../locale/#{locale}.rb"
+
+        unless File.exist?(path)
+          path = File.dirname(__FILE__) + "/../../locale/#{locale}.yml"
+        end
+
+        unless File.exist?(path)
+          raise "No locale file exist for :#{locale}."
+        end
+
+        I18n.load_path += [path]
+
+        pluralization = File.dirname(__FILE__) + "/../../pluralization/#{locale}.rb"
+        I18n.load_path += [pluralization] if File.exist?(pluralization)
+        I18n.backend.class.send(:include, I18n::Backend::Pluralization)
+
+        I18n.backend.init_translations
+      end
+  end
 end
